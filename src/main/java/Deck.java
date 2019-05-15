@@ -17,10 +17,6 @@ public class Deck {
         }
     }
 
-    public static List<Card> getDECK() {
-        return DECK;
-    }
-
     public Deck(){
         cardDeck = new Stack<Card>();
         cardDeck.addAll(DECK);

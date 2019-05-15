@@ -20,11 +20,12 @@ public class War {
         setup();
         System.out.println("I have dealt us both "+ player.getHand().getNumberOfCards().toString()+" cards. Let's Play!\nReady to DRAW?");
         input.nextLine();
-        while(player.getHand().getNumberOfCards()>0 || dealer.getHand().getNumberOfCards()>0){
+        while(!player.getHand().isEmpty() || player.getHand().getNumberOfCards()==52){
             pile.clear();
             draw();
             input.nextLine();
         }
+        evaluateWinner();
     }
 
     public void draw(){
@@ -45,13 +46,9 @@ public class War {
         }
     }
     public void haveWar(){
-        System.out.print("This is WAR! Draw the next card face down...");
+        System.out.print("This is WAR! We both draw three cards face down...");
         input.nextLine();
-        Card card3 = player.draw();
-        Card card4 = dealer.draw();
-        pile.add(card3);
-        pile.add(card4);
-        System.out.print("[ ][ ][ ][ ][ ] VS [ ][ ][ ][ ][ ]\nOkay, final draw...");
+        drawThreeFaceDown();
         input.nextLine();
         drawWar();
     }
@@ -80,5 +77,43 @@ public class War {
         for(int i=0 ; i<pile.size()-1 ; i+=2){
             System.out.println(pile.get(i)+" VS "+pile.get(i+1));
         }
+    }
+
+    public void evaluateWinner(){
+        if(player.getHand().getNumberOfCards()>dealer.getHand().getNumberOfCards()){
+            System.out.println("You Won! Play Again?");
+            input.nextLine();
+            play();
+        }   else {
+            System.out.println("Dealer Won. Play Again?");
+            input.nextLine();
+            play();
+        }
+    }
+    public void drawThreeFaceDown(){
+        if(player.getHand().getNumberOfCards()<4){
+            System.out.println("Looks like you don't have enough cards for war.");
+            evaluateWinner();
+        } else if (dealer.getHand().getNumberOfCards()<4){
+            System.out.println("Looks like the Dealer doesn't have enough cards for war.");
+            evaluateWinner();
+        }
+            Card card3 = player.draw();
+            Card card4 = dealer.draw();
+            pile.add(card3);
+            pile.add(card4);
+            System.out.print("[ ][ ][ ][ ][ ] VS [ ][ ][ ][ ][ ]");
+            input.nextLine();
+            Card card5 = player.draw();
+            Card card6 = dealer.draw();
+            pile.add(card5);
+            pile.add(card6);
+            System.out.print("[ ][ ][ ][ ][ ] VS [ ][ ][ ][ ][ ]");
+            input.nextLine();
+            Card card7 = player.draw();
+            Card card8 = dealer.draw();
+            pile.add(card7);
+            pile.add(card8);
+            System.out.print("[ ][ ][ ][ ][ ] VS [ ][ ][ ][ ][ ]\nOkay, final draw...");
     }
 }
